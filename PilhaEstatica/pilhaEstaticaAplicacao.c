@@ -47,10 +47,32 @@ void trataopt(int opt){
             }
             break;
         case 4:
+            listaPilha(pilha);
+            //pilha listada na ordem de inserção, ou seja, o dado inserido por ultimo está no topo;
             break;
         case 5:
             break;
     }
+}
+
+void listaPilha(tipoPilha p){
+    tipoPilha pilhaux;
+    int dado;
+    if(pilhaVazia(p)){
+        printf("Pilha vazia!\n");
+    } else{
+        criaPilha(&pilhaux);
+        while(!pilhaVazia(p)){
+            removePilha(&p, &dado);
+            printf("%d\n", dado);
+            inserePilha(&pilhaux, dado);
+        }
+        while(!pilhaVazia(pilhaux)){
+            removePilha(&pilhaux, &dado);
+            inserePilha(&p, dado);
+        }
+    }
+
 }
 
 void main(void){
