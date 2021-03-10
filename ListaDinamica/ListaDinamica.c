@@ -9,8 +9,9 @@ typedef struct tipoDataNasc{
 }tipoDataNasc;
 
 typedef struct tipoDado{
-    char nome[maxNome], profissao[maxNome];
-    tipoDataNasc data;
+    char nome[maxNome];
+    char profissao[maxNome];
+    tipoDataNasc data; 
     float salario;
     int rg;
 }tipoDado;
@@ -20,12 +21,12 @@ typedef struct tipoE{
     struct tipoeE *prox;
 }tipoE;
 
+typedef tipoE *tipoPonteiro;
+
 typedef struct tipoLista{
-    tipoE *lista;
+    tipoPonteiro lista;
     int quant;
 }tipoLista;
-
-typedef tipoE *tipoPonteiro;
 
 void criaLista(tipoLista *l){
     l->quant = 0;
@@ -52,7 +53,7 @@ int buscaLista(tipoLista l, char nome[], tipoPonteiro *pos_ant){
         return 0;
     } else{
         pos_prox = l.lista;
-        tem_mais = pos_prox->prox != NULL;
+        tem_mais = (pos_prox->prox != NULL);
         while(strcmp(pos_prox->dado.nome, nome) == -1 && tem_mais){
             *pos_ant = pos_prox;
             pos_prox = pos_prox->prox;
@@ -147,21 +148,23 @@ int removeLista(tipoLista *l, tipoDado *dado){
                 *dado = prox->dado;
                 pos_ant->prox = prox->prox;
             }
+            free(prox);
+            l->quant--;
+            return 1;
+        } else{
+            return 0;
         }
-        free(prox);
-        l->quant--;
     }
 }
 
-int atualizaLista(tipoLista *l, tipoDado *dado){
-    tipoPonteiro aux;
+int atualizaLista(tipoLista *l, tipoDado dado){
+    tipoPonteiro pos_ant, prox, aux;
     if(vazia(*l)){
         return 0;
     } else{
-        if(buscaLista(*l, dado->nome, &aux)){
+        if(buscaLista(*l, dado.nome, &pos_ant)){
             return 0;
         } else{
-            insereLista(l, *dado);
             return 1;
         }
     }

@@ -13,7 +13,8 @@ int menuOpt(){
     printf("|4 - CONSULTA POR POSICAO   |\n");
     printf("|5 - QUANTIDADE DE ELEMENTOS|\n");
     printf("|6 - IMPRIMIR LISTA         |\n");
-    printf("|7 - SAIR                   |\n");
+    printf("|7 - ATUALIZAR LISTA        |\n");
+    printf("|8 - SAIR                   |\n");
     printf("ESCOLHA UMA OPCAO: ");
     scanf("%d", &opt);
     return opt;
@@ -25,7 +26,7 @@ void trataOpt(int opt){
     switch(opt){
         case 1:
             if(cheia(lista)){
-                printf("LISTA CHEIA!\n");
+                printf("\nLISTA CHEIA!\n");
 
             } else{
                 printf("\nINSERCAO\n");
@@ -41,39 +42,39 @@ void trataOpt(int opt){
                 scanf("%d", &(dado.data.ano));
                 printf("RG: ");
                 scanf("%d", &(dado.rg));
-                // printf("Profissao: ");
-                // fflush(stdin);
-                // fgets(dado.profissao, maxNome, stdin);
-                // fflush(stdin);
-                // printf("Salario: ");
-                // scanf("%f", dado.salario);
+                printf("Profissao: ");
+                fflush(stdin);
+                fgets(dado.profissao, maxNome, stdin);
+                fflush(stdin);
+                printf("Salario: ");
+                scanf("%f", &(dado.salario));
                 insereLista(&lista, dado);
                 printf("REGISTRO INSERIDO!\n");
             }
             break;
         case 2:
             if(vazia(lista)){
-                printf("LISTA VAZIA!\n");
+                printf("\nLISTA VAZIA!\n");
             } else{
                 printf("\nREMOCAO\nDigite o nome do registro a ser removido: ");
                 fflush(stdin);
                 fgets(dado.nome, maxNome, stdin);
                 fflush(stdin);
                 if(removeLista(&lista, &dado)){
-                    printf("Nome: %s\n", dado.nome);
+                    printf("Nome: %s", dado.nome);
                     printf("Data do nascimento: %d/%d/%d\n", dado.data.dia, dado.data.mes, dado.data.ano);
                     printf("RG: %d\n", dado.rg);
-                    // printf("Profissao: %s\n", dado.profissao);
-                    // printf("Salario: %.2f\n", dado.salario);
-                    printf("\nREGISTRO REMOVIDO!\n");
+                    printf("Profissao: %s", dado.profissao);
+                    printf("Salario: R$%.2f\n", dado.salario);
+                    printf("REGISTRO REMOVIDO!\n");
                 } else{
-                    printf("ERRO! O REGISTRO NAO EXISTE!\n");
+                    printf("\nERRO! O REGISTRO NAO EXISTE!\n");
                 }
             }
             break;
         case 3:
             if(vazia(lista)){
-                printf("LISTA VAZIA!\n");
+                printf("\nLISTA VAZIA!\n");
             } else{
                 printf("\nDigite o nome a ser consultado: ");
                 fflush(stdin);
@@ -81,32 +82,32 @@ void trataOpt(int opt){
                 fflush(stdin);
                 if(consultaNome(lista, &dado)){
                     printf("\nREGISTRO CONSULTADO!\n");
-                    printf("Nome: %s\n", dado.nome);
+                    printf("Nome: %s", dado.nome);
                     printf("Data do nascimento: %d/%d/%d\n", dado.data.dia, dado.data.mes, dado.data.ano);
                     printf("RG: %d\n", dado.rg);
-                    // printf("Profissao: %s\n", dado.profissao);
-                    // printf("Salario: %.2f\n", dado.salario);
+                    printf("Profissao: %s", dado.profissao);
+                    printf("Salario: R$%.2f\n", dado.salario);
                 } else{
-                    printf("ERRO! REGISTRO NAO EXISTE!\n");
+                    printf("\nERRO! REGISTRO NAO EXISTE!\n");
                 }
             }
             break;
         case 4:
             if(vazia(lista)){
-                printf("LISTA VAZIA!\n");
+                printf("\nLISTA VAZIA!\n");
             } else{
                 printf("Qual a posicao do item que deseja consultar: ");
                 scanf("%d", &pos);
                 if(consultaPos(lista, pos, &dado)){
                     printf("\nREGISTRO CONSULTADO!\n");
                     printf("Posicao: %d\n", pos);
-                    printf("Nome: %s\n", dado.nome);
+                    printf("Nome: %s", dado.nome);
                     printf("Data do nascimento: %d/%d/%d\n", dado.data.dia, dado.data.mes, dado.data.ano);
                     printf("RG: %d\n", dado.rg);
-                    // printf("Profissao: %s\n", dado.profissao);
-                    // printf("Salario: %.2f\n", dado.salario);
+                    printf("Profissao: \n", dado.profissao);
+                    printf("Salario: R$%.2f\n", dado.salario);
                 } else{
-                    printf("ERRO! ESSA POSICAO NAO EXISTE!\n");
+                    printf("\nERRO! ESSA POSICAO NAO EXISTE!\n");
                 }
             }
             break;
@@ -115,25 +116,25 @@ void trataOpt(int opt){
             break;
         case 6:
             if(vazia(lista)){
-                printf("LISTA VAZIA!\n");
+                printf("\nLISTA VAZIA!\n");
             } else{
                 printf("\nELEMENTOS DA LISTA\n");
                 for(pos = 1; pos <= quantF(lista); pos++){
                     consultaPos(lista, pos, &dado);
-                    printf("\nRegistro numero: %d\n", pos);
-                    printf("Nome: %s\n", dado.nome);
+                    printf("\nRegistro numero %d\n", pos);
+                    printf("Nome: %s", dado.nome);
                     printf("Data do nascimento(dia/mes/ano): %d/%d/%d\n", dado.data.dia, dado.data.mes, dado.data.ano);
                     printf("RG: %d\n", dado.rg);
-                    // printf("Profissao: %s\n", dado.profissao);
-                    // printf("Salario: %.2f\n", dado.salario);
+                    printf("Profissao: %s", dado.profissao);
+                    printf("Salario: R$%.2f\n", dado.salario);
                 }
             }
             break;
         case 7:
             if(vazia(lista)){
-                printf("LISTA VAZIA!\n");
+                printf("\nLISTA VAZIA!\n");
             } else{
-                printf("ATUALIZAR LISTA\n");
+                printf("\nATUALIZAR LISTA\n");
                 printf("Dia do nascimento: ");
                 scanf("%d", &(dado.data.dia));
                 printf("Mes do nascimento: ");
@@ -142,13 +143,13 @@ void trataOpt(int opt){
                 scanf("%d", &(dado.data.ano));
                 printf("RG: ");
                 scanf("%d", &(dado.rg));
-                // printf("Profissao: ");
-                // fflush(stdin);
-                // fgets(dado.profissao, maxNome, stdin);
-                // fflush(stdin);
-                // printf("Salario: ");
-                // scanf("%f", dado.salario);
-                // atualizaLista(&lista, &dado);
+                printf("Profissao: ");
+                fflush(stdin);
+                fgets(dado.profissao, maxNome, stdin);
+                fflush(stdin);
+                printf("Salario: ");
+                scanf("%f", &(dado.salario));
+                atualizaLista(&lista, dado);
                 printf("REGISTRO ATUALIZADO!\n");    
             }
             break;

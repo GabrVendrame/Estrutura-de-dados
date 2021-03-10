@@ -10,9 +10,9 @@ typedef struct tipoDataNasc{
 
 typedef struct tipoDado{
     char nome[maxNome];
-    // char profissao[maxNome];
+    char profissao[maxNome];
     tipoDataNasc data;
-    // float salario;
+    float salario;
     int rg;
 }tipoDado;
 
@@ -44,5 +44,5 @@ int consultaPos(tipoLista l, int pos, tipoDado *dado);
 
 int removeLista(tipoLista *l, tipoDado *dado);
 
-int atualizaLista(tipoLista *l, tipoDado *dado);
+int atualizaLista(tipoLista *l, tipoDado dado);
 
