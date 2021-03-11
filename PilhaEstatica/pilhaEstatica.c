@@ -45,10 +45,3 @@ int removePilha(tipoPilha *p, int *x){
         return 1;
     }
 }
-
-void mostraPilha(tipoPilha p){
-}
-
-
-
-
