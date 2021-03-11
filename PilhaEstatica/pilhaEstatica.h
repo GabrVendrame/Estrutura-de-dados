@@ -19,6 +19,3 @@ int pilhaTopo(tipoPilha p);
 int inserePilha(tipoPilha *p, int x);
 
 int removePilha(tipoPilha *p, int *x);
-
-
-
