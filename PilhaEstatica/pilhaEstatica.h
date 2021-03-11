@@ -20,7 +20,5 @@ int inserePilha(tipoPilha *p, int x);
 
 int removePilha(tipoPilha *p, int *x);
 
-void mostraPilha(tipoPilha p);
-
 
 
