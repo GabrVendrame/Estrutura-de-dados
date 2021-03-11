@@ -11,7 +11,7 @@ int menu(){
     printf("\n|3 - Mostra topo  |");
     printf("\n|4 - Mostra pilha |");
     printf("\n|5 - Sair         |");
-    printf("\nEscolha uma opcao: ");
+    printf("\nSeleciona uma opcao: ");
     scanf("%d", &opt);
     return opt;
 }
