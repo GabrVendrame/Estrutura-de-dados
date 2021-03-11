@@ -16,6 +16,26 @@ int menu(){
     return opt;
 }
 
+void listaPilha(tipoPilha p){
+    tipoPilha pilhaux;
+    int dado;
+    if(pilhaVazia(p)){
+        printf("Pilha vazia!\n");
+    } else{
+        criaPilha(&pilhaux);
+        while(!pilhaVazia(p)){
+            removePilha(&p, &dado);
+            printf("%d\n", dado);
+            inserePilha(&pilhaux, dado);
+        }
+        while(!pilhaVazia(pilhaux)){
+            removePilha(&pilhaux, &dado);
+            inserePilha(&p, dado);
+        }
+    }
+
+}
+
 void trataopt(int opt){
     int x;
     switch(opt){
@@ -53,26 +73,6 @@ void trataopt(int opt){
         case 5:
             break;
     }
-}
-
-void listaPilha(tipoPilha p){
-    tipoPilha pilhaux;
-    int dado;
-    if(pilhaVazia(p)){
-        printf("Pilha vazia!\n");
-    } else{
-        criaPilha(&pilhaux);
-        while(!pilhaVazia(p)){
-            removePilha(&p, &dado);
-            printf("%d\n", dado);
-            inserePilha(&pilhaux, dado);
-        }
-        while(!pilhaVazia(pilhaux)){
-            removePilha(&pilhaux, &dado);
-            inserePilha(&p, dado);
-        }
-    }
-
 }
 
 void main(void){
