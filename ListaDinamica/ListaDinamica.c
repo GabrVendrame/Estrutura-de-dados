@@ -1,3 +1,5 @@
+// ALUNO: Gabriel de Souza Vendrame
+// RA: 112681
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -158,14 +160,21 @@ int removeLista(tipoLista *l, tipoDado *dado){
 }
 
 int atualizaLista(tipoLista *l, tipoDado dado){
-    tipoPonteiro pos_ant, prox, aux;
+    tipoPonteiro pos_ant, novoDado;
     if(vazia(*l)){
         return 0;
     } else{
         if(buscaLista(*l, dado.nome, &pos_ant)){
-            return 0;
-        } else{
+            if(pos_ant == NULL) {
+                novoDado = l->lista;
+            } else {
+                novoDado = pos_ant->prox;
+            }
+            novoDado->dado = dado;
             return 1;
+        } else{
+            return 0;
         }
     }
 }
+

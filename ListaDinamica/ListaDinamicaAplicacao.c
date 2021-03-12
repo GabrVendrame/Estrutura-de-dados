@@ -1,3 +1,5 @@
+// ALUNO: Gabriel de Souza Vendrame
+// RA: 112681
 #include <stdio.h>
 #include <stdlib.h>
 #include "ListaDinamica.h"
@@ -5,6 +7,7 @@
 tipoLista lista;
 
 int menuOpt(){
+    // a opção criaLista não existe pois a lista já é criada automaticamente no main()
     int opt;
     printf("\n|           MENU            |\n");
     printf("|1 - INSERIR                |\n");
@@ -26,7 +29,7 @@ void trataOpt(int opt){
     switch(opt){
         case 1:
             if(cheia(lista)){
-                printf("\nLISTA CHEIA!\n");
+                printf("\nERRO! LISTA CHEIA!\n");
 
             } else{
                 printf("\nINSERCAO\n");
@@ -54,7 +57,7 @@ void trataOpt(int opt){
             break;
         case 2:
             if(vazia(lista)){
-                printf("\nLISTA VAZIA!\n");
+                printf("\nERRO! LISTA VAZIA!\n");
             } else{
                 printf("\nREMOCAO\nDigite o nome do registro a ser removido: ");
                 fflush(stdin);
@@ -74,7 +77,7 @@ void trataOpt(int opt){
             break;
         case 3:
             if(vazia(lista)){
-                printf("\nLISTA VAZIA!\n");
+                printf("\nERRO! LISTA VAZIA!\n");
             } else{
                 printf("\nDigite o nome a ser consultado: ");
                 fflush(stdin);
@@ -94,7 +97,7 @@ void trataOpt(int opt){
             break;
         case 4:
             if(vazia(lista)){
-                printf("\nLISTA VAZIA!\n");
+                printf("\nERRO! LISTA VAZIA!\n");
             } else{
                 printf("Qual a posicao do item que deseja consultar: ");
                 scanf("%d", &pos);
@@ -116,7 +119,7 @@ void trataOpt(int opt){
             break;
         case 6:
             if(vazia(lista)){
-                printf("\nLISTA VAZIA!\n");
+                printf("\nERRO! LISTA VAZIA!\n");
             } else{
                 printf("\nELEMENTOS DA LISTA\n");
                 for(pos = 1; pos <= quantF(lista); pos++){
@@ -132,9 +135,13 @@ void trataOpt(int opt){
             break;
         case 7:
             if(vazia(lista)){
-                printf("\nLISTA VAZIA!\n");
+                printf("\nERRO! LISTA VAZIA!\n");
             } else{
                 printf("\nATUALIZAR LISTA\n");
+                printf("Digite o nome do resgistro que deseja atualizar: ");
+                fflush(stdin);
+                fgets(dado.nome, maxNome, stdin);
+                fflush(stdin);
                 printf("Dia do nascimento: ");
                 scanf("%d", &(dado.data.dia));
                 printf("Mes do nascimento: ");
@@ -150,8 +157,7 @@ void trataOpt(int opt){
                 printf("Salario: ");
                 scanf("%f", &(dado.salario));
                 atualizaLista(&lista, dado);
-                printf("REGISTRO ATUALIZADO!\n");    
-            }
+                }
             break;
     }
 }

@@ -1,3 +1,5 @@
+// ALUNO: Gabriel de Souza Vendrame
+// RA: 112681
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -45,4 +47,3 @@ int consultaPos(tipoLista l, int pos, tipoDado *dado);
 int removeLista(tipoLista *l, tipoDado *dado);
 
 int atualizaLista(tipoLista *l, tipoDado dado);
-
