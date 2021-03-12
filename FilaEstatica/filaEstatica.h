@@ -3,15 +3,19 @@
 
 #define maxFila 100
 
-typedef struct tipoFila
-{
+typedef struct tipoFila{
     int fila[maxFila];
-    int primeiro, ultimo, quant;
+    int prim, ult, quant;
 } tipoFila;
 
 void criaFila(tipoFila *f);
+
 int filaVazia(tipoFila f);
+
 int filaCheia(tipoFila f);
-int primeiroFila(tipoFila f, int *dado);
+
+int primeiroF(tipoFila f, int *dado);
+
 int enfileira(tipoFila *f, int dado);
+
 int desenfileira(tipoFila *f, int *dado);
