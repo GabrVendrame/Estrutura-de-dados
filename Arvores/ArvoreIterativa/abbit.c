@@ -207,7 +207,7 @@ void emOrdem(tipoArvore A){
                 }
             }
         }
-        } while(!acabou);
+    } while(!acabou);
 }
 
 int posOrdem(tipoArvore A){
