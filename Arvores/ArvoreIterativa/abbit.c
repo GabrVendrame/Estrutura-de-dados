@@ -154,55 +154,51 @@ int consulta(tipoArvore A, tipoDado *D){
     }
 }
 
-int preOrdem(tipoArvore A){
-    tipoPilha auxp;
-    tipoPonteiroNo auxno;
-    int acabou = 0;
-    do{
-        printf("\nNOME: %s  RG: %d  IDADE: %d\n", auxno->dado.nome, auxno->dado.rg, auxno->dado.idade);
-        if(auxno->esq != NULL){
-            empilha(&auxp, auxno);
-            auxno = auxno->esq;
-        } else{
-            if(auxno->dir != NULL){
-                auxno = auxno->dir;
-            } else{
-                acabou = (desempilha(&auxp, &auxno) == 0);
-                while(!acabou && auxno->dir == NULL){
-                    printf("\nNOME: %s  RG: %d  IDADE: %d\n", auxno->dado.nome, auxno->dado.rg, auxno->dado.idade);
-                    acabou = (desempilha(&auxp, &auxno) == 0);
-                }
-                if(!acabou){
-                    printf("\nNOME: %s  RG: %d  IDADE: %d\n", auxno->dado.nome, auxno->dado.rg, auxno->dado.idade);
-                    auxno = auxno->dir;
-                }
-            }
-        }
-    }while(!acabou);
-}
-
-void emOrdem(tipoArvore A){
-    tipoPilha auxp;
+void preOrdem(tipoArvore A){
+    tipoPilha pilha;
     tipoPonteiroNo auxno;
     int acabou = 0;
     auxno = A.raiz;
-    criaPilha(&auxp);
+    criaPilha(&pilha);
     do{
-        if(auxno->esq != NULL){
-            empilha(&auxp, auxno);
+        if(auxno != NULL){
+            printf("\nNOME: %sRG: %d\nIDADE: %d\n", auxno->dado.nome, auxno->dado.rg, auxno->dado.idade);
+            empilha(&pilha, auxno);
             auxno = auxno->esq;
         } else{
-            printf("\nNOME: %s  RG: %d  IDADE: %d\n", auxno->dado.nome, auxno->dado.rg, auxno->dado.idade);
+            acabou = (desempilha(&pilha, &auxno) == 0);
+            while(!acabou && auxno->dir == NULL){
+                acabou = (desempilha(&pilha, &auxno) == 0);
+            }
+            if(!acabou){
+                auxno = auxno->dir;
+            }
+        }
+    } while(!acabou);
+}
+
+void emOrdem(tipoArvore A){
+    tipoPilha pilha;
+    tipoPonteiroNo auxno;
+    auxno = A.raiz;
+    int acabou = 0;
+    criaPilha(&pilha);
+    do{
+        if(auxno->esq != NULL){
+            empilha(&pilha, auxno);
+            auxno = auxno->esq;
+        } else{
+            printf("\nNOME: %sRG: %d\nIDADE: %d\n", auxno->dado.nome, auxno->dado.rg, auxno->dado.idade);
             if(auxno->dir != NULL){
                 auxno = auxno->dir;
             } else{
-                acabou = (desempilha(&auxp, &auxno) == 0);
+                acabou = (desempilha(&pilha, &auxno) == 0);
                 while(!acabou && auxno->dir == NULL){
-                    printf("\nNOME: %s  RG: %d  IDADE: %d\n", auxno->dado.nome, auxno->dado.rg, auxno->dado.idade);
-                    acabou = (desempilha(&auxp, &auxno) == 0);
+                    printf("\nNOME: %sRG: %d\nIDADE: %d\n", auxno->dado.nome, auxno->dado.rg, auxno->dado.idade);
+                    acabou = (desempilha(&pilha, &auxno) == 0);
                 }
                 if(!acabou){
-                    printf("\nNOME: %s  RG: %d  IDADE: %d\n", auxno->dado.nome, auxno->dado.rg, auxno->dado.idade);
+                    printf("\nNOME: %sRG: %d\nIDADE: %d\n", auxno->dado.nome, auxno->dado.rg, auxno->dado.idade);
                     auxno = auxno->dir;
                 }
             }
@@ -210,7 +206,58 @@ void emOrdem(tipoArvore A){
     } while(!acabou);
 }
 
-int posOrdem(tipoArvore A){
-
+void posOrdem(tipoArvore A){
+    tipoPilha pilha, pilha2;
+    tipoPonteiroNo auxno, auxno2;
+    auxno = A.raiz;
+    int acabou = 0;
+    criaPilha(&pilha);
+    criaPilha(&pilha2);
+    do{
+        while(auxno != NULL){
+            if (auxno->dir != NULL){
+                empilha(&pilha, auxno->dir);
+            }
+            empilha(&pilha, auxno);
+            auxno = auxno->esq;
+        }  
+        acabou = (desempilha(&pilha, &auxno) == 0);
+        pilhaTopo(pilha, &auxno2);
+        if (auxno->dir && auxno2 == auxno->dir){
+            acabou = (desempilha(&pilha, &auxno2) == 0);
+            empilha(&pilha, auxno);
+            auxno = auxno->dir;
+        } else {
+            printf("\nNOME: %sRG: %d\nIDADE: %d\n", auxno->dado.nome, auxno->dado.rg, auxno->dado.idade);
+            if(auxno == A.raiz){
+                acabou = (desempilha(&pilha, &auxno) == 0);
+            }
+            auxno = NULL;
+        }
+    } while (!acabou);
 }
 
+void mostraABB(tipoArvore A){
+    tipoPilha pilha1, pilha2;
+    tipoPonteiroNo auxno;
+    criaPilha(&pilha1);
+    criaPilha(&pilha2);
+    empilha(&pilha1, A.raiz);
+    do{
+        desempilha(&pilha1, &auxno);
+        if(auxno != NULL){
+            printf("%s ", auxno->dado.nome);
+            empilha(&pilha2, auxno->esq);
+            empilha(&pilha2, auxno->dir);
+        } else{
+            printf("\nNULL");
+        }
+        if(pilhaVazia(pilha1)){
+            while(!pilhaVazia(pilha2)){
+                desempilha(&pilha2, &auxno);
+                empilha(&pilha1, auxno);
+            }
+            printf("\n");
+        }
+    }while(!pilhaVazia(pilha1));
+}

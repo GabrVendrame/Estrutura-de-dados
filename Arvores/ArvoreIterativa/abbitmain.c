@@ -10,11 +10,14 @@ int menuOpt(){
     printf("\n1 - INSERIR ABB");
     printf("\n2 - REMOVER ABB");
     printf("\n3 - CONSULTAR ABB");
-    printf("\n4 - QUANTIDADE DE ELEMENTOS");
-    printf("\n5 - IMPRIMIR PRE-ORDEM");
-    printf("\n6 - IMPRIMIR EM-ORDEM");
-    printf("\n7 - IMPRIMIR POS-ORDEM");
-    printf("\n8 - SAIR");
+    printf("\n4 - CONSULTAR PAI");
+    printf("\n5 - CONSULTAR ASC");
+    printf("\n6 - QUANTIDADE DE ELEMENTOS");
+    printf("\n7 - IMPRIMIR PRE-ORDEM");
+    printf("\n8 - IMPRIMIR EM-ORDEM");
+    printf("\n9 - IMPRIMIR POS-ORDEM");
+    printf("\n10 - MOSTRAR ABB");
+    printf("\n11 - SAIR");
     printf("\nESCOLHA A OPCAO: ");
     scanf("%d", &opt);
     return opt;
@@ -79,27 +82,38 @@ void trataOpt(int opt){
             }
             break;
         case 4:
-            printf("\nELEMENTOS NA ARVORE: %d", quantA(abb));
             break;
         case 5:
+            break;
+        case 6:
+            printf("\nELEMENTOS NA ARVORE: %d", quantA(abb));
+            break;
+        case 7:
             if(vazia(abb)){
                 printf("\nERRO! ARVORE VAZIA!");
             } else{
                 preOrdem(abb);
             }
             break;
-        case 6:
+        case 8:
             if(vazia(abb)){
                 printf("\nERRO! ARVORE VAZIA!");
             } else{
                 emOrdem(abb);
             }
             break;
-        case 7:
+        case 9:
             if(vazia(abb)){
                 printf("\nERRO! ARVORE VAZIA!");
             } else{
                 posOrdem(abb);
+            }
+            break;
+        case 10:
+            if(vazia(abb)){
+                printf("\nERRO! ARVORE VAZIA!");
+            } else{
+                mostraABB(abb);
             }
             break;
     }
@@ -111,5 +125,5 @@ void main(void){
     do{
         opt = menuOpt();
         trataOpt(opt);
-    }while(opt != 8);
+    }while(opt != 11);
 }
