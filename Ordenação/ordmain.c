@@ -6,6 +6,30 @@
 
 tipoVet vet;
 
+void mostraTodos(){
+    int tam;
+    printf("\nEXECUCAO CONJUNTA!");
+    printf("\nDIGITE O TAMANHO DO VETOR: ");
+    scanf("%d", &tam);
+    int vet[tam], vaux[tam];
+    geraVetor(vet, tam);
+    memcpy(vaux, vet, sizeof(vet));
+    printf("\nSELECTION SORT\n");
+    printVet(vet, tam);
+    selectionSort(vaux, tam);
+    printVet(vaux, tam);
+    memcpy(vaux, vet, sizeof(vet));
+    printf("\nINSERTION SORT\n");
+    printVet(vet, tam);
+    insertionSort(vaux, tam);
+    printVet(vaux, tam);
+    memcpy(vaux, vet, sizeof(vet));
+    printf("\nBUBBLE SORT\n");
+    printVet(vet, tam);
+    bubbleSort(vaux, tam);
+    printVet(vaux, tam);
+}
+
 int menuOpcao(){
     int opt;
     printf("\n|        Menu        |");
