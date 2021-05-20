@@ -12,20 +12,22 @@ typedef struct tipoD{
 } tipoD;
 
 void geraVetor(tipoVet V, int tam){
+    int i;
     srand(time(NULL));
-    for(int i = 0; i < tam; i++){
+    for(i = 0; i < tam; i++){
         V[i] = rand() % 100;
     }
 }
 
 void printVet(tipoVet V, int tam){
+    int i;
     if(tam <= 1000){
-        for(int i = 0; i < tam; i++){
+        for(i = 0; i < tam; i++){
             printf("%d ", V[i]);
         }
         printf("\n");
     } else{
-        printf("\nTAMANHO DO VETOR ALTO! IMPRESSAO OMITIDA!\n");
+        printf("\nTAMANHO DO VETOR MUITO GRANDE! IMPRESSAO OMITIDA!\n");
     }
     printf("\n");
 }
@@ -147,11 +149,12 @@ tipoD shellSort(tipoVet V, int tam){
                 nOps+= 4;
             }
             V[ant + desloc] = aux;
-            desloc = desloc / 2;
             nCmp++;
-            nOps+= 9;
+            nOps+= 7;
         }
+        desloc = desloc / 2;
         nCmp++;
+        nOps+=2;
     }
     tempo_final = (long int)time(NULL);
     tempo_total = tempo_final - tempo_inicial;
@@ -200,4 +203,90 @@ tipoD _mergeSort(tipoVet V, int inicio, int fim){
 
 tipoD mergeSort(tipoVet V, int tam){
     _mergeSort(V, 0, tam-1);
+}
+
+int indiceFilhoEsq(int indice){
+    return (2 * indice + 1);
+}
+
+int indiceFilhoDir(int indice){
+    return (2 * indice + 2);
+}
+
+tipoD arrumaMaxHeap(tipoVet V, int tam, int indice){
+    int maior, posmaior, aux;
+    maior = V[indice];
+    posmaior = indice;
+    if(indiceFilhoEsq(indice) < tam){
+        if(V[indiceFilhoEsq(indice)] > maior){
+            maior = V[indiceFilhoEsq(indice)];
+            posmaior = indiceFilhoEsq(indice);
+        }
+        if(indiceFilhoDir(indice) < tam){
+    
+            if(V[indiceFilhoDir(indice)] > maior){
+        
+                maior = V[indiceFilhoDir(indice)];
+                posmaior = indiceFilhoDir(indice);
+            }
+        }
+    }
+    if(posmaior != indice){
+        aux = V[indice];
+        V[indice] = maior;
+        V[posmaior] = aux;
+        arrumaMaxHeap(V, tam, posmaior);
+    }
+}
+
+tipoD maxHeap(tipoVet V, int tam){
+    int i;
+    for(i = (tam - 2) / 2; i > -1; i--){
+        arrumaMaxHeap(V, tam, i);
+    }
+}
+
+tipoD heapSort(tipoVet V, int tam){
+    int i, aux;
+    maxHeap(V, tam);
+    for(i = tam - 1; i > 0; i--){
+        aux = V[i];
+        V[i] = V[0];
+        V[0] = aux;
+        arrumaMaxHeap(V, i, 0);
+    }
+}
+
+int particiona(tipoVet V, int inicio, int fim){
+    int posDiv, i, meio, div, aux;
+    meio = (inicio + fim) / 2;
+    aux = V[fim];
+    V[fim] = V[meio];
+    V[meio] = aux;
+    div = V[fim];
+    posDiv = inicio;
+    for(i = inicio; i < fim; i++){
+        if(V[i] < div){
+            aux = V[i];
+            V[i] = V[posDiv];
+            V[posDiv] = aux;
+            posDiv++;
+        }
+    }
+    V[fim] = V[posDiv];
+    V[posDiv] = div;
+    return posDiv;
+}
+
+tipoD _quicksort(tipoVet V, int inicio, int fim){
+    int posDiv;
+    if(fim > inicio){
+        posDiv = particiona(V, inicio, fim);
+        _quicksort(V, inicio, posDiv - 1);
+        _quicksort(V, posDiv + 1, fim);
+    }
+}
+
+tipoD quickSort(tipoVet V, int tam){
+    _quicksort(V, 0, tam-1);
 }

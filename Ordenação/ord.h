@@ -18,3 +18,5 @@ tipoD insertionSort(tipoVet V, int tam);
 tipoD bubbleSort(tipoVet V, int tam);
 tipoD shellSort(tipoVet V, int tam);
 tipoD mergeSort(tipoVet V, int tam);
+tipoD heapSort(tipoVet V, int tam);
+tipoD quickSort(tipoVet V, int tam);
