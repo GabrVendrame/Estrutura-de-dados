@@ -20,3 +20,6 @@ tipoD shellSort(tipoVet V, int tam);
 tipoD mergeSort(tipoVet V, int tam);
 tipoD heapSort(tipoVet V, int tam);
 tipoD quickSort(tipoVet V, int tam);
+tipoD countingSort(tipoVet V, int tam);
+tipoD bucketSort(tipoVet V, int tam);
+tipoD radixSort(tipoVet V, int tam);

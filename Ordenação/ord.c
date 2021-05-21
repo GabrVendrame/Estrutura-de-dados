@@ -290,3 +290,100 @@ tipoD _quicksort(tipoVet V, int inicio, int fim){
 tipoD quickSort(tipoVet V, int tam){
     _quicksort(V, 0, tam-1);
 }
+
+tipoD transfereVetor(tipoVet V, tipoVet R, int C[], int tam){
+    int i;
+    for(i = tam - 1; i >= 0; i--){
+        R[C[V[i]] - 1] = V[i];
+        C[V[i]]--;
+    }
+    for(i = 0; i < tam; i++){
+        V[i] = R[i];
+    }
+}
+
+tipoD registraContagem(tipoVet V, int C[], int tam, int fim){
+    int i;
+    for(i = 0; i <= fim; i++){
+        C[i] = 0;
+    }
+    for(i = 0; i < tam; i++){
+        C[V[i]]++;
+    }
+    for(i = 1; i <= fim; i++){
+        C[i] += C[i-1];
+    }
+}
+
+tipoD _countingSort(tipoVet V, int tam, int inicio, int fim){
+    tipoVet R;
+    int C[fim];
+    registraContagem(V, C, tam, fim);
+    transfereVetor(V, R, C, tam);
+}
+
+tipoD countingSort(tipoVet V, int tam){
+    int i, maior;
+    maior = V[0];
+    for(i = 1; i < tam; i++){
+        if(V[i] > maior){   
+            maior = V[i];
+        }
+    }
+    _countingSort(V, tam, 0, maior);
+}
+
+int pegaDigito(int n, int posdigito){
+    int i, digito = 0;
+    for(i = 0; i <= posdigito; i++){
+        digito = n % 10;
+        n = n / 10;
+    }
+    return digito;
+}
+
+int calculaQuantDigito(int numero){
+    int quant = 0;
+    do{
+        numero = numero / 10;
+        quant++;
+    } while(numero != 0);
+    return quant;
+}
+
+tipoD countingSort2(tipoVet V, int tam, int posdigito){
+    int i, maior, C[10], n;
+    maior = V[0];
+    for(i = 1; i < tam; i++){
+        if(V[i] > maior){
+            maior = V[i];
+        }
+    }
+    while(pegaDigito(n, posdigito)){
+        for(i = 0; i < 10; i++){
+            C[i] = 0;
+        }
+        for(i = 0; i < tam; i++){
+            C[V[i]]++;
+        }
+        for(i = 1; i <= fim; i++){
+            C[i] += C[i-1];
+        }
+        for(i = tam - 1; i >= 0; i--){
+            R[C[V[i]] - 1] = V[i];
+            C[V[i]]--;
+        }
+        for(i = 0; i < tam; i++){
+            V[i] = R[i];
+        }
+    }
+}
+
+tipoD radixSort(tipoVet V, int tam){
+    int maxNum, digito, quantdigito, posdigito;
+    tipoVet C, R;
+    quantdigito = calculaQuantDigito(maxNum);
+    for(posdigito = 0; posdigito < quantdigito; posdigito++){
+        countingSort2(V, tam, posdigito);
+    }
+}

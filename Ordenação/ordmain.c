@@ -140,16 +140,16 @@ void trataOpcao(int opt){
             printf("\nTEMPO= %ld segundos\nCOMPARACOES= %.2lf\nOPERACOES= %.2lf\nCOMPARACOES + OPERACOES= %.2lf\n", rd.tempo, rd.nCmp, rd.nOps, rd.nCmp + rd.nOps);
             break;
         case 8:
-            // printf("\nORDENACAO COUNTING SORT");
-            // printf("\nDIGITE O TAMANHO DO VETOR: ");
-            // scanf("%d", &tam);
-            // geraVetor(vet, tam);
-            // printf("\nVETOR PRE-ORDENACAO\n");
-            // printVet(vet, tam);
-            // rd = countingSort(vet, tam);
-            // printf("\nVETOR POS-ORDENACAO\n");
-            // printVet(vet, tam);
-            // printf("\nTEMPO= %ld segundos\nCOMPARACOES= %.2lf\nOPERACOES= %.2lf\nCOMPARACOES + OPERACOES= %.2lf\n", rd.tempo, rd.nCmp, rd.nOps, rd.nCmp + rd.nOps);
+            printf("\nORDENACAO COUNTING SORT");
+            printf("\nDIGITE O TAMANHO DO VETOR: ");
+            scanf("%d", &tam);
+            geraVetor(vet, tam);
+            printf("\nVETOR PRE-ORDENACAO\n");
+            printVet(vet, tam);
+            rd = countingSort(vet, tam);
+            printf("\nVETOR POS-ORDENACAO\n");
+            printVet(vet, tam);
+            printf("\nTEMPO= %ld segundos\nCOMPARACOES= %.2lf\nOPERACOES= %.2lf\nCOMPARACOES + OPERACOES= %.2lf\n", rd.tempo, rd.nCmp, rd.nOps, rd.nCmp + rd.nOps);
             break;
         case 9:
             // printf("\nORDENACAO BUCKET SORT");
@@ -164,16 +164,16 @@ void trataOpcao(int opt){
             // printf("\nTEMPO= %ld segundos\nCOMPARACOES= %.2lf\nOPERACOES= %.2lf\nCOMPARACOES + OPERACOES= %.2lf\n", rd.tempo, rd.nCmp, rd.nOps, rd.nCmp + rd.nOps);
             break;
         case 10:
-            // printf("\nORDENACAO RADIX SORT");
-            // printf("\nDIGITE O TAMANHO DO VETOR: ");
-            // scanf("%d", &tam);
-            // geraVetor(vet, tam);
-            // printf("\nVETOR PRE-ORDENACAO\n");
-            // printVet(vet, tam);
-            // rd = radixSort(vet, tam);
-            // printf("\nVETOR POS-ORDENACAO\n");
-            // printVet(vet, tam);
-            // printf("\nTEMPO= %ld segundos\nCOMPARACOES= %.2lf\nOPERACOES= %.2lf\nCOMPARACOES + OPERACOES= %.2lf\n", rd.tempo, rd.nCmp, rd.nOps, rd.nCmp + rd.nOps);
+            printf("\nORDENACAO RADIX SORT");
+            printf("\nDIGITE O TAMANHO DO VETOR: ");
+            scanf("%d", &tam);
+            geraVetor(vet, tam);
+            printf("\nVETOR PRE-ORDENACAO\n");
+            printVet(vet, tam);
+            rd = radixSort(vet, tam);
+            printf("\nVETOR POS-ORDENACAO\n");
+            printVet(vet, tam);
+            printf("\nTEMPO= %ld segundos\nCOMPARACOES= %.2lf\nOPERACOES= %.2lf\nCOMPARACOES + OPERACOES= %.2lf\n", rd.tempo, rd.nCmp, rd.nOps, rd.nCmp + rd.nOps);
             break;
         case 11:
             mostraTodos();
