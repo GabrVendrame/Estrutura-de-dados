@@ -3,8 +3,16 @@
 #include <time.h>
 
 #define tamVet 100000
+#define maxBuckets 10
 
 typedef int tipoVet[tamVet];
+
+typedef struct tipoBucket{
+    tipoVet local;
+    int pos, tam;
+} tipoBucket;
+
+typedef tipoVet Buckets[maxBuckets];
 
 typedef struct tipoD{
     long int tempo;
@@ -166,43 +174,86 @@ tipoD shellSort(tipoVet V, int tam){
 
 tipoD merge(tipoVet V, int inicio, int meio, int fim){
     tipoVet part1, part2;
+    tipoD td;
     int tam1 = 0, tam2 = 0, i, j, k, maior;
+    double nCmp = 0, nOps = 0;
+    nCmp++;
+    nOps+=3;
     for(i = inicio; i < meio + 1; i++){
         part1[tam1] = V[i];
         tam1++;
+        nOps+=2;
     }
+    nCmp++;
+    nOps+=4;
     for(i = meio + 1; i < fim + 1; i++){
         part2[tam2] = V[i];
         tam2++;
+        nOps+=2;
     }
     maior = abs(part1[tam1-1] + part2[tam2-1]) + 1;
     part1[tam1] = maior;
     part2[tam2] = maior;
     i = 0;
     j = 0;
+    nCmp++;
+    nOps+=12;
     for(k = inicio; k < fim + 1; k++){
+        nCmp++;
         if(part1[i] < part2[j]){
             V[k] = part1[i];
             i++;
+            nOps+=2;
         } else{
             V[k] = part2[j];
             j++;
+            nOps+=2;
         }
-    } 
+    }
+    td.nCmp = nCmp;
+    td.nOps = nOps;
+    return td; 
 }
 
 tipoD _mergeSort(tipoVet V, int inicio, int fim){
     int meio;
+    double nCmp = 0, nOps = 0;
+    tipoD td, aux;
+    nCmp++;
     if((fim - inicio) > 0){
         meio = (inicio + fim) / 2;
-        _mergeSort(V, inicio, meio);
-        _mergeSort(V, meio + 1, fim);
-        merge(V, inicio, meio, fim);
+        aux = _mergeSort(V, inicio, meio);
+        td.nOps = aux.nOps;
+        td.nCmp = aux.nCmp;
+        aux = _mergeSort(V, meio + 1, fim);
+        td.nOps += aux.nOps;
+        td.nCmp += aux.nCmp;
+        aux = merge(V, inicio, meio, fim);
+        td.nOps += aux.nOps;
+        td.nCmp += aux.nCmp;
+        nOps+=14;
     }
+    td.nCmp += nCmp;
+    td.nOps += nOps;
+    return td;
 }
 
 tipoD mergeSort(tipoVet V, int tam){
-    _mergeSort(V, 0, tam-1);
+    long int tempo_inicial, tempo_final, tempo_total;
+    double nCmp = 0, nOps = 0;
+    tipoD td, aux;
+    tempo_inicial = (long int)time(NULL);
+    aux = _mergeSort(V, 0, tam-1);
+    td.nOps = aux.nOps;
+    td.nCmp = aux.nCmp;
+    td.tempo = aux.tempo;
+    nOps++;
+    tempo_final = (long int)time(NULL);
+    tempo_total = tempo_final - tempo_inicial;
+    td.tempo = tempo_total;
+    td.nCmp += nCmp;
+    td.nOps += nOps;
+    return td;
 }
 
 int indiceFilhoEsq(int indice){
@@ -215,46 +266,93 @@ int indiceFilhoDir(int indice){
 
 tipoD arrumaMaxHeap(tipoVet V, int tam, int indice){
     int maior, posmaior, aux;
+    double nCmp = 0, nOps = 0;
+    tipoD td;
+    td.nCmp = 0;
+    td.nOps = 0;
     maior = V[indice];
     posmaior = indice;
+    nCmp++;
+    nOps+=2;
     if(indiceFilhoEsq(indice) < tam){
+        nCmp++;
+        nOps+=2;
         if(V[indiceFilhoEsq(indice)] > maior){
             maior = V[indiceFilhoEsq(indice)];
             posmaior = indiceFilhoEsq(indice);
+            nOps+=2;
         }
+        nCmp++;
+        nOps+=2;
         if(indiceFilhoDir(indice) < tam){
-    
+            nCmp++;
+            nOps+=2;
             if(V[indiceFilhoDir(indice)] > maior){
-        
                 maior = V[indiceFilhoDir(indice)];
                 posmaior = indiceFilhoDir(indice);
+                nOps+=2;
             }
         }
     }
+    nCmp++;
     if(posmaior != indice){
         aux = V[indice];
         V[indice] = maior;
         V[posmaior] = aux;
-        arrumaMaxHeap(V, tam, posmaior);
+        nOps+=3;
+        td = arrumaMaxHeap(V, tam, posmaior);
+        nOps++;
     }
+    td.nCmp += nCmp;
+    td.nOps += nOps;
+    return td;
 }
 
 tipoD maxHeap(tipoVet V, int tam){
     int i;
+    double nCmp = 0, nOps = 0;
+    tipoD td, aux;
+    td.nCmp = 0;
+    td.nOps = 0;
+    nCmp++;
     for(i = (tam - 2) / 2; i > -1; i--){
-        arrumaMaxHeap(V, tam, i);
+        nOps+=5;
+        aux = arrumaMaxHeap(V, tam, i);
+        td.nCmp+=aux.nCmp;
+        td.nOps+=aux.nOps;
+        nOps++;
     }
+    td.nCmp += nCmp;
+    td.nOps += nOps;
+    return td;
 }
 
 tipoD heapSort(tipoVet V, int tam){
     int i, aux;
-    maxHeap(V, tam);
+    long int tempo_inicial, tempo_final, tempo_total;
+    double nCmp = 0, nOps = 0;
+    tipoD td;
+    td.nCmp = 0;
+    td.nOps = 0;
+    tempo_inicial = (long int)time(NULL);
+    td = maxHeap(V, tam);
+    nCmp++;
+    nOps++;
     for(i = tam - 1; i > 0; i--){
+        nOps+=3;
         aux = V[i];
         V[i] = V[0];
         V[0] = aux;
-        arrumaMaxHeap(V, i, 0);
+        nOps+=3;
+        td = arrumaMaxHeap(V, i, 0);
+        nOps++;
     }
+    tempo_final = (long int)time(NULL);
+    tempo_total = tempo_final - tempo_inicial;
+    td.tempo = tempo_total;
+    td.nCmp += nCmp;
+    td.nOps += nOps;
+    return td;
 }
 
 int particiona(tipoVet V, int inicio, int fim){
@@ -280,57 +378,145 @@ int particiona(tipoVet V, int inicio, int fim){
 
 tipoD _quicksort(tipoVet V, int inicio, int fim){
     int posDiv;
+    double nCmp = 0, nOps = 0;
+    tipoD td, aux;
+    td.nCmp = 0;
+    td.nOps = 0;
+    nCmp++;
     if(fim > inicio){
         posDiv = particiona(V, inicio, fim);
-        _quicksort(V, inicio, posDiv - 1);
-        _quicksort(V, posDiv + 1, fim);
+        nCmp++;
+        nOps+=11;
+        nOps+=fim; // aproximacao para a funcao particiona que nao pode ser do tipoD;
+        aux = _quicksort(V, inicio, posDiv - 1);
+        td.nCmp = aux.nCmp;
+        td.nOps = aux.nOps;
+        nOps++;
+        aux = _quicksort(V, posDiv + 1, fim);
+        td.nCmp += aux.nCmp;
+        td.nOps += aux.nOps;
+        nOps++;
     }
+    td.nCmp += nCmp;
+    td.nOps += nOps;
+    return td;
 }
 
 tipoD quickSort(tipoVet V, int tam){
-    _quicksort(V, 0, tam-1);
+    long int tempo_inicial, tempo_final, tempo_total;
+    double nCmp = 0, nOps = 0;
+    tipoD td, aux;
+    td.nCmp = 0;
+    td.nOps = 0;
+    tempo_inicial = (long int)time(NULL);
+    aux = _quicksort(V, 0, tam-1);
+    td.nCmp+=aux.nCmp;
+    td.nOps+=aux.nOps;
+    nOps+=2;
+    tempo_final = (long int)time(NULL);
+    tempo_total = tempo_final - tempo_inicial;
+    td.tempo = tempo_total;
+    td.nCmp += nCmp;
+    td.nOps += nOps;
+    return td;
 }
 
 tipoD transfereVetor(tipoVet V, tipoVet R, int C[], int tam){
     int i;
+    double nCmp = 0, nOps = 0;
+    tipoD td;
+    td.nCmp = 0;
+    td.nOps = 0;
+    nCmp++;
     for(i = tam - 1; i >= 0; i--){
         R[C[V[i]] - 1] = V[i];
         C[V[i]]--;
+        nOps+=7;
     }
+    nCmp++;
     for(i = 0; i < tam; i++){
         V[i] = R[i];
+        nOps+=3;
     }
+    td.nCmp += nCmp;
+    td.nOps += nOps;
+    return td;
 }
 
 tipoD registraContagem(tipoVet V, int C[], int tam, int fim){
     int i;
+    double nCmp = 0, nOps = 0;
+    tipoD td;
+    td.nCmp = 0;
+    td.nOps = 0;
+    nCmp++;
     for(i = 0; i <= fim; i++){
         C[i] = 0;
+        nOps+=3;
     }
+    nCmp++;
     for(i = 0; i < tam; i++){
         C[V[i]]++;
+        nOps+=3;
     }
+    nCmp++;
     for(i = 1; i <= fim; i++){
         C[i] += C[i-1];
+        nOps+=4;
     }
+    td.nCmp += nCmp;
+    td.nOps += nOps;
+    return td;
 }
 
 tipoD _countingSort(tipoVet V, int tam, int inicio, int fim){
     tipoVet R;
+    tipoD td;
+    td.nCmp = 0;
+    td.nOps = 0;
     int C[fim];
-    registraContagem(V, C, tam, fim);
-    transfereVetor(V, R, C, tam);
+    double nCmp = 0, nOps = 0;
+    td = registraContagem(V, C, tam, fim);
+    nOps++;
+    td = transfereVetor(V, R, C, tam);
+    nOps++;
+    td.nCmp += nCmp;
+    td.nOps += nOps;
+    return td;
 }
 
 tipoD countingSort(tipoVet V, int tam){
     int i, maior;
+    long int tempo_inicial, tempo_final, tempo_total;
+    double nCmp = 0, nOps = 0;
+    tipoD td, aux;
+    td.nCmp = 0;
+    td.nOps = 0;
+    tempo_inicial = (long int)time(NULL);
     maior = V[0];
+    nCmp++;
+    nOps++;
     for(i = 1; i < tam; i++){
+        nCmp++;
         if(V[i] > maior){   
             maior = V[i];
+            nOps++;
         }
+        nOps+=2;
     }
-    _countingSort(V, tam, 0, maior);
+    aux = _countingSort(V, tam, 0, maior);
+    td.nCmp+=aux.nCmp;
+    td.nOps+=aux.nOps;
+    nOps++;
+    tempo_final = (long int)time(NULL);
+    tempo_total = tempo_final - tempo_inicial;
+    td.tempo = tempo_total;
+    td.nCmp += nCmp;
+    td.nOps += nOps;
+    return td;
+}
+
+tipoD bucketSort(tipoVet V, int tam){                                   
 }
 
 int pegaDigito(int n, int posdigito){
@@ -352,38 +538,81 @@ int calculaQuantDigito(int numero){
 }
 
 tipoD countingSort2(tipoVet V, int tam, int posdigito){
-    int i, maior, C[10], n;
-    maior = V[0];
-    for(i = 1; i < tam; i++){
+    int i, pos, maior = V[0], base=1;
+    int *c;
+    double nCmp = 0, nOps = 0;
+    tipoD td, aux;
+    td.nCmp = 0;
+    td.nOps = 0;
+    c = (int*)calloc(tam, sizeof(int));
+    nCmp++;
+    nOps++;
+    for(i = 0; i < tam; i++){
+        nOps+=2;
         if(V[i] > maior){
             maior = V[i];
+            nCmp++;
+            nOps++;
         }
     }
-    while(pegaDigito(n, posdigito)){
+    nCmp++;
+    nOps++;
+    while(maior / base > 0){
+        int C[10];
+        nCmp++;
         for(i = 0; i < 10; i++){
             C[i] = 0;
+            nOps+=3;
         }
+        nCmp++;
         for(i = 0; i < tam; i++){
-            C[V[i]]++;
+            C[pegaDigito(V[i], posdigito)]++;
+            nOps+=3;
         }
-        for(i = 1; i <= fim; i++){
+        nCmp++;
+        for(i = 1; i < 10; i++){
             C[i] += C[i-1];
+            nOps+=4;
         }
+        nCmp++;
         for(i = tam - 1; i >= 0; i--){
-            R[C[V[i]] - 1] = V[i];
-            C[V[i]]--;
+            c[--C[pegaDigito(V[i], posdigito)]] = V[i];
+            nOps+=7;
         }
+        nCmp++;
         for(i = 0; i < tam; i++){
-            V[i] = R[i];
+            V[i] = c[i];
+            nOps+=3;
         }
+        base *= 10;
+        nOps+2;
     }
+    free(c);
+    td.nCmp += nCmp;
+    td.nOps += nOps;
+    return td;
 }
 
 tipoD radixSort(tipoVet V, int tam){
     int maxNum, digito, quantdigito, posdigito;
-    tipoVet C, R;
+    long int tempo_inicial, tempo_final, tempo_total;
+    double nCmp = 0, nOps = 0;
+    tipoD td, aux;
+    td.nCmp = 0;
+    td.nOps = 0;
+    tempo_inicial = (long int)time(NULL);
     quantdigito = calculaQuantDigito(maxNum);
+    nCmp++;
+    nOps++;
     for(posdigito = 0; posdigito < quantdigito; posdigito++){
-        countingSort2(V, tam, posdigito);
+        aux = countingSort2(V, tam, posdigito);
+        td.nCmp += aux.nCmp;
+        td.nOps += aux.nOps;
     }
+    tempo_final = (long int)time(NULL);
+    tempo_total = tempo_final - tempo_inicial;
+    td.tempo = tempo_total;
+    td.nCmp += nCmp;
+    td.nOps += nOps;
+    return td;
 }

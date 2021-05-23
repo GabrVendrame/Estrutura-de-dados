@@ -3,8 +3,16 @@
 #include <time.h>
 
 #define tamVet 100000
+#define maxBuckets 10
 
 typedef int tipoVet[tamVet];
+
+typedef struct tipoBucket{
+    tipoVet local;
+    int pos, tam;
+} tipoBucket;
+
+typedef tipoVet Buckets[maxBuckets];
 
 typedef struct tipoD{
     long int tempo;
@@ -21,5 +29,5 @@ tipoD mergeSort(tipoVet V, int tam);
 tipoD heapSort(tipoVet V, int tam);
 tipoD quickSort(tipoVet V, int tam);
 tipoD countingSort(tipoVet V, int tam);
-tipoD bucketSort(tipoVet V, int tam);
 tipoD radixSort(tipoVet V, int tam);
+tipoD bucketSort(tipoVet V, int tam);
